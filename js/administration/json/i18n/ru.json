@@ -1,0 +1,272 @@
+{
+  "frontend": {
+    "mainMenu": {
+      "events": "События",
+      "structure": "Структура",
+      "templates": "Шаблоны данных",
+      "references": "Справочники",
+      "orders": "Заказы",
+      "feedback": "Обратная связь",
+      "users": "Пользователи",
+      "plugins": "Плагины",
+      "backups": "Резервирование",
+      "settings": "Настройки"
+    },
+    "events": {
+      "order_num": "Заказ №",
+      "new_orders": "Новые заказы",
+      "new_messages": "Новые сообщения",
+      "new_users": "Новые пользователи",
+      "not_new_events": "Нет новых событий"
+    },
+    "settings": {
+      "common": {
+        "common": "Общие",
+        "images": "Изображения",
+        "robots": "robots.txt",
+        "language": "Язык",
+        "indexSearch": "Переиндексировать поиск",
+        "sitemap": "Переиндексировать sitemap.xml",
+        "adminEmail": "Email администратора",
+        "updateSystem": "Обновить систему",
+        "check_for_updates": "Проверить наличие обновлений",
+        "updates_not_found": "Обновления не найдены, установлена самая последняя версия системы",
+        "updates_found": "Обновления найдены, установить?",
+        "success_updated": "Система успешно обновлена"
+      },
+      "aboutProgramm": {
+        "aboutProgramm": "О программе",
+        "date_create": "Дата установки CMS",
+        "date_update": "Дата последнего обновления CMS",
+        "program_name": "Название CMS",
+        "version": "Версия"
+      },
+      "domains": {
+        "domains": "Домены",
+        "name": "Имя",
+        "prefix": "Префикс",
+        "subDomain": "Поддомен",
+        "default": "По-умолчанию",
+        "sites": "Сайты",
+        "russian": "Русский",
+        "english": "Английский"
+      }
+    },
+    "plugins": {
+      "installed": "Установленные",
+      "download": "Добавить новый",
+      "confirm": "Вы действительно хотите удалить плагин"
+    },
+    "webforms": {
+      "addresses": {
+        "addresses": "Адреса",
+        "newAddress": "Новый адрес"
+      },
+      "mail_templates": {
+        "mail_templates": "Шаблоны писем"
+      },
+      "messages": {
+        "messages": "Сообщения",
+        "ip": "IP",
+        "address": "Адрес",
+        "date": "Дата",
+        "id": "Ид",
+        "message": "Текст сообщения"
+      }
+    },
+    "users": {
+      "main": "Основное",
+      "main_rights": "Основные права",
+      "plugin_rights": "Права на плагины"
+    },
+    "header": {
+      "log_out": "Выйти"
+    },
+    "footer": {
+      "buttons": {
+        "cancel": "Отменить",
+        "save": "Сохранить",
+        "delete": "Удалить",
+        "create_user": "Создать пользователя",
+        "apply": "Применить",
+        "add_template": "Добавить шаблон",
+        "de_select": "Снять выделение",
+        "add": "Добавить",
+        "download": "Скачать",
+        "upload": "Выгрузить",
+        "buy": "Купить",
+        "update": "Обновить"
+      }
+    },
+    "templates": {
+      "add_field": "Добавить поле",
+      "name": "Название",
+      "identifier": "Идентификатор",
+      "type": "Тип данных",
+      "necessarily": "Обязательное",
+      "index": "Индексировать",
+      "add_group": "Добавить группу",
+      "hint": "Подсказка",
+      "filtered": "Фильтровать",
+      "new_group": "Новая группа",
+      "new_field": "Новое поле",
+      "reference": "Справочник"
+    },
+    "main_rights": {
+      "read": "Чтение",
+      "edit": "Редактирование",
+      "create": "Создание",
+      "delete": "Удаление"
+    },
+    "share": {
+      "amount": "Итого",
+      "name": "Название",
+      "select_page": "Выбор страницы",
+      "saved": "Сохранено",
+      "total_price": "Итоговая цена"
+    },
+    "back_ups": {
+      "export": "Экспорт",
+      "import": "Импорт",
+      "css": "CSS",
+      "js": "JS",
+      "fonts": "Шрифты",
+      "images": "Изоражения",
+      "site_templates": "Шаблоны сайта",
+      "custom_macros": "Кастомные макросы",
+      "email_emarket_templates": "Шаблоны емайл для успешного заказа",
+      "email_restore_path_templates": "Шаблоны емейл для восстановления пароля",
+      "data_base": "База данных",
+      "upload_file": "Файл для выгрузки",
+      "success_restored": "Восстановлено",
+      "files": "Файлы"
+    },
+    "errors": {
+      "data_response": "Ошибка запроса"
+    }
+  },
+  "backend": {
+    "new_page": "Новая страница",
+    "new_template": "Новый шаблон",
+    "emarket": {
+      "users_login": "Логин пользователя",
+      "name": "Название",
+      "price": "Цена",
+      "amount": "Количество",
+      "tableName": "Наименования в заказе",
+      "order": "Заказ"
+    },
+    "fields": {
+      "share": "Общие",
+      "active": "Активная",
+      "main": "Главная",
+      "type": "Тип данных",
+      "uri": "Псевдостатический адрес",
+      "no_indexed": "Не индексировать"
+    },
+    "users": {
+      "access_to_the_admin_panel": "Доступ в админку",
+      "confirm_password": "Подтверждение пароля",
+      "password_restore": "Восстановление пароля",
+      "new_password": "Новый пароль",
+      "password": "Пароль",
+      "new_password_send": "Новый пароль был выслан на email",
+      "not_right_hash": "Хэш не действительный, попробуйте восстановить пароль еще раз"
+    },
+    "errors": {
+      "can_not_find_configuration_file": "Не удается найти конфигурационный файл",
+      "has_not_required_data": "Не указаны обязателые данные",
+      "password_mismatch": "Пароли не совпадают",
+      "system_template": "Системные шаблоны нельзя удалить",
+      "required_fields": "Заполните обязательные поля",
+      "limit_file": "Файл слишком большой. Максимальный размер файла - 20 MB",
+      "db_connect_error": "Не удается соединиться с сервером базы данных",
+      "db_select_error": "Не удается соединиться с базой данных",
+      "could_not_delete_default_subdomain": "Нельзя удалять дефолтный поддомен",
+      "could_not_delete_last_subdomain": "Нельзя удалять последний поддомен, должен быть, как минимум один",
+      "not_uniq_subdomain_prefix": "Префикс уже существует",
+      "error_login_or_password": "Не правильное имя пользователя или пароль",
+      "there_is_not_user_name_or_password": "Не заданы имя пользователя или пароль",
+      "there_is_not_subdomian": "Не указан поддомен",
+      "could_not_change_default_value_of_domain": "Вы не можете убрать свойство домена по-умолчанию, если он является таким. Выберите поддомен, который не является по-умолчанию и установите ему это значение",
+      "csrf": "Сработала защита от кросдоменного запроса",
+      "access_denied": "Недостаточно прав",
+      "could_find_section_for_api_method": "Не удалось найти раздел для api метода",
+      "could_not_open_zip": "Архив не найден или поврежден",
+      "error": "Ошибка",
+      "user-already-exist": "Пользователь с таким именем уже зарегестрирован в системе",
+      "there-is-not-login": "Логин не введен",
+      "not-auth": "Логин и пароль не совпадают",
+      "user-email-not-found": "Пользователь с указанным почтовым ящиком не найден",
+      "no-hash-user": "Отсутсвует хэш пользователя",
+      "user-not-found": "Пользователь не найден",
+      "basket_is_empty": "Корзина пуста"
+    },
+    "auth": {
+      "remember_me": "Запомнить меня",
+      "enter": "Войти",
+      "password": "Пароль",
+      "login": "Логин",
+      "authorization": "Авторизация"
+    },
+    "install": {
+      "install": "Установка",
+      "user": "Свойства админа",
+      "email": "Email",
+      "do_install": "Установить",
+      "bd_props": "Подключение базы данных",
+      "db_host": "Хост",
+      "db_login": "Логин",
+      "db_password": "Пароль",
+      "db_name": "Имя базы данных",
+      "languages": "Языки",
+      "select_language": "Выберите язык",
+      "system_version": "Версия CMS",
+      "company_site": "Сайт компании",
+      "emarket_site": "Интернет-магазин",
+      "password_error": "Пароли не совпадают",
+      "empty_error": "Заполните обязательные поля",
+      "good_installed": "Установка прошла успешно",
+      "go_to_admin": "войдите в административную панель",
+      "fields_of_user": "Поля пользователя",
+      "main_page": "Главная"
+    },
+    "field_types": {
+      "string": "Строка",
+      "number": "Число",
+      "check_box": "Кнопка-флажок",
+      "select": "Выпадающий список",
+      "multi_select": "Выпадающий список со множественным выбором",
+      "simple_text": "Простой текст",
+      "html_text": "Html текст",
+      "image_file": "Изображение/файл",
+      "date": "Дата",
+      "time": "Время",
+      "double": "Число с точкой",
+      "compound": "Составное",
+      "price": "Цена",
+      "link_page": "Ссылка на дерево",
+      "password": "Пароль"
+    },
+    "sections": {
+      "section": "Раздел сайта",
+      "directories": "Справочники",
+      "users": "Пользователи",
+      "orders": "Заказ",
+      "feedback": "Обратная связь",
+      "forms": "Формы",
+      "messsage_template": "Шаблон письма"
+    },
+    "filed_names": {
+      "addresses_mail_template": "Адреса",
+      "mail_template_address": "Адрес получателя",
+      "mail_template_name_from": "Имя от",
+      "mail_template_address_from": "Адрес от",
+      "mail_template_mail_templ": "Шаблон тела письма",
+      "addresses_mail_template_group": "Группа адресов",
+      "mail_template": "Письмо",
+      "fields_of_user": "Поля пользователя",
+      "address": "Адрес"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Document</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Cache-Control" content="public"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/js/administration/jquery.js"></script>
+    <script type="text/javascript" src="/js/administration/jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/administration/jqueryui/multi_sortable.js"></script>
+    <script src="/js/administration/underscore.js"></script>
+    <script src="/js/administration/backbone.js"></script>
+    <script src="/js/administration/bootstrap.js"></script>
+    <link href="/css/administration/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/administration/font-awesome.css" rel="stylesheet"/>
+    <link href="/css/administration/style.css" rel="stylesheet"/>
+    <link href="/css/administration/admin_panel_styles.css" rel="stylesheet"/>
+    <link href="/css/administration/jsTreeStyle.css" rel="stylesheet"/>
+    <link href="/css/administration/tinymce.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/js/administration/require.js"></script>
+    <script type="text/javascript" src="/js/administration/script.js"></script>
+</head>
+<body>
+
+<div id="elfinder"></div>
+<div id="mainMenu"></div>
+
+<div id="wrapper">
+    <div id="show_main_menu"><i class="fa fa-bars" aria-hidden="true"></i></div>
+    <nav class="navbar-default navbar-static-side ng-scope" id="main_menu" role="navigation">
+        <div class="sidebar-collapse" style="overflow: hidden; width: auto; height: 100%;">
+            <ul class="nav metismenu" id="side-menu">
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<!-- Page wraper -->
+<div id="page-wrapper" class="gray-bg dashboards.dashboard_1">
+    <div class="head_block">
+        <a href="https://scale-all.com" class="logo_cms">
+            <img src="/images/administration/scale.png"/>
+            <span class="logo_cms__link">
+                Scale
+            </span>
+        </a>
+        <div class="general_settings_block"></div>
+    </div>
+    <div id="content-block"></div>
+    <div id="modal-form" class="modal fade file_manager" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="triggerToogleModalForm" data-toggle="modal" href="#modal-form"></button>
+</div>
+<!-- End wrapper-->
+
+<div id="preloader" class="preloader-wrap">
+    <div class="preloader-block">
+        <div class="preloader">
+            <div class="cssload-cube cssload-c1"></div>
+            <div class="cssload-cube cssload-c2"></div>
+            <div class="cssload-cube cssload-c4"></div>
+            <div class="cssload-cube cssload-c3"></div>
+        </div>
+    </div>
+</div>
+
+<script id="contactTemplate" type="text/template">
+    <a href="#!<%= link %>" class="main_menu_link"><i class="<%= classIco %>"></i> <span class="nav-label ng-binding"><%= name %></span>
+    </a>
+</script>
+
+</body>
+</html>

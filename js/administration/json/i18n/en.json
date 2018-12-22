@@ -1,0 +1,272 @@
+{
+  "frontend": {
+    "mainMenu": {
+      "events": "Events",
+      "structure": "Structure",
+      "templates": "Templates",
+      "references": "References",
+      "orders": "Orders",
+      "feedback": "Feedback",
+      "users": "Users",
+      "plugins": "Plugins",
+      "backups": "Backups",
+      "settings": "Settings"
+    },
+    "events": {
+      "order_num": "Order №",
+      "new_orders": "New Orders",
+      "new_messages": "New Messages",
+      "new_users": "New Users",
+      "not_new_events": "There are no new events"
+    },
+    "settings": {
+      "common": {
+        "common": "Common",
+        "images": "Images",
+        "robots": "robots.txt",
+        "language": "Language",
+        "indexSearch": "Index search",
+        "sitemap": "Index sitemap.xml",
+        "adminEmail": "Admin email",
+        "updateSystem": "Update system",
+        "check_for_updates": "Check for updates",
+        "updates_not_found": "No updates found, the latest version of the system is installed",
+        "updates_found": "Updates found, installed?",
+        "success_updated": "System successfully updated"
+      },
+      "aboutProgramm": {
+        "aboutProgramm": "About programm",
+        "date_create": "CMS install date",
+        "date_update": "Last update date of the CMS",
+        "program_name": "CMS name",
+        "version": "Version"
+      },
+      "domains": {
+        "domains": "Domains",
+        "name": "Name",
+        "prefix": "Prefix",
+        "subDomain": "Subdomain",
+        "default": "Default",
+        "sites": "Sites",
+        "russian": "Russian",
+        "english": "English"
+      }
+    },
+    "plugins": {
+      "installed": "Installed",
+      "download": "Add new",
+      "confirm": "Do you really want to uninstall the plugin"
+    },
+    "webforms": {
+      "addresses": {
+        "addresses": "Addresses",
+        "newAddress": "new address"
+      },
+      "mail_templates": {
+        "mail_templates": "Mail"
+      },
+      "messages": {
+        "messages": "Messages",
+        "ip": "IP",
+        "address": "Address",
+        "date": "Date",
+        "id": "Id",
+        "message": "Message"
+      }
+    },
+    "users": {
+      "main": "Main",
+      "main_rights": "Main rights",
+      "plugin_rights": "Plugin rights"
+    },
+    "header": {
+      "log_out": "exit"
+    },
+    "footer": {
+      "buttons": {
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "create_user": "Create user",
+        "apply": "Apply",
+        "add_template": "Add template",
+        "de_select": "Deselect",
+        "add": "Add",
+        "download": "Download",
+        "upload": "Upload",
+        "buy": "Buy",
+        "update": "Update"
+      }
+    },
+    "templates": {
+      "add_field": "Add field",
+      "name": "Name",
+      "identifier": "Identifier",
+      "type": "Type",
+      "necessarily": "Necessarily",
+      "index": "Index",
+      "add_group": "Add group",
+      "hint": "Hint",
+      "filtered": "Filter",
+      "new_group": "New group",
+      "new_field": "New field",
+      "reference": "Reference"
+    },
+    "share": {
+      "amount": "Amount",
+      "name": "Name",
+      "select_page": "Select page",
+      "saved": "Saved",
+      "total_price": "Total price"
+    },
+    "main_rights": {
+      "read": "Reade",
+      "edit": "Edit",
+      "create": "Create",
+      "delete": "Delete"
+    },
+    "back_ups": {
+      "export": "Export",
+      "import": "Import",
+      "css": "CSS",
+      "js": "JS",
+      "fonts": "Fonts",
+      "images": "Images",
+      "site_templates": "Site templates",
+      "custom_macros": "Custom macros",
+      "email_emarket_templates": "Templates of email for success order",
+      "email_restore_path_templates": "Templates of email for restore password",
+      "data_base": "Data base",
+      "upload_file": "Upload file",
+      "files": "Files",
+      "success_restored": "Success restored"
+    },
+    "errors": {
+      "data_response": "Error request"
+    }
+  },
+  "backend": {
+    "new_page": "New page",
+    "new_template": "New template",
+    "emarket": {
+      "users_login": "User's login",
+      "name": "Name",
+      "price": "Price",
+      "amount": "Amount",
+      "tableName": "Orders",
+      "order": "Order"
+    },
+    "fields": {
+      "share": "Share",
+      "active": "Active",
+      "main": "Main",
+      "type": "Type",
+      "uri": "Uri",
+      "no_indexed": "No indexed"
+    },
+    "users": {
+      "access_to_the_admin_panel": "Access to the admin panel",
+      "confirm_password": "Confirm password",
+      "password_restore": "Password Restore",
+      "new_password": "New password",
+      "password": "Password",
+      "new_password_send": "New password send on email",
+      "not_right_hash": "Hash is wrong, try to restore the password again"
+    },
+    "errors": {
+      "can_not_find_configuration_file": "Can't find configuration file",
+      "has_not_required_data": "There is not required data",
+      "password_mismatch": "Password mismatch",
+      "system_template": "System templates can not be deleted",
+      "required_fields": "Please fill out require fields",
+      "limit_file": "File is too much. Max size is 20 MB",
+      "db_connect_error": "Can not connect to the database server",
+      "db_select_error": "Can not connect to database",
+      "could_not_delete_default_subdomain": "You could not delete default subdomain",
+      "could_not_delete_last_subdomain": "You could not delete last subdomain",
+      "not_uniq_subdomain_prefix": "Subdomain prefix is not unique",
+      "error_login_or_password": "Login or password are not correct",
+      "there_is_not_user_name_or_password": "There is not user name or password",
+      "there_is_not_subdomian": "There is not subdomain",
+      "could_not_change_default_value_of_domain": "You could not change default value if it checked. Checked other subdomain as default, which is not checked",
+      "error": "Error",
+      "access_denied": "Access denied",
+      "could_find_section_for_api_method": "Could find section for api method",
+      "could_not_open_zip": "Zip archive not found or damaged",
+      "csrf": "This is csrf protection",
+      "user-already-exist": "User already exist",
+      "there-is-not-login": "There is not login",
+      "not-auth": "Login and password do not match",
+      "user-email-not-found": "User email not found",
+      "no-hash-user": "There is not user hash",
+      "user-not-found": "User not found",
+      "basket_is_empty": "Basket is empty"
+    },
+    "auth": {
+      "remember_me": "Remember me",
+      "enter": "Enter",
+      "password": "Password",
+      "login": "Login",
+      "authorization": "Authorization"
+    },
+    "install": {
+      "install": "Install",
+      "user": "Admin properties",
+      "email": "Email",
+      "do_install": "Install",
+      "bd_props": "Connect to database",
+      "db_host": "Host",
+      "db_login": "Login",
+      "db_password": "Password",
+      "db_name": "Database name",
+      "languages": "Languages",
+      "select_language": "Select language",
+      "system_version": "CMS version",
+      "company_site": "Company site",
+      "emarket_site": "E-Market",
+      "password_error": "Passwords are not compare",
+      "empty_error": "Fill in required fields",
+      "good_installed": "Installation was successful",
+      "go_to_admin": "log in to the admin panel",
+      "fields_of_user": "Fields of user",
+      "main_page": "Main"
+    },
+    "field_types": {
+      "string": "String",
+      "number": "Number",
+      "check_box": "Checkbox",
+      "select": "Select",
+      "multi_select": "Multi select",
+      "simple_text": "Text",
+      "html_text": "Html",
+      "image_file": "Image/file",
+      "date": "Date",
+      "time": "Time",
+      "double": "Double",
+      "compound": "Compound",
+      "price": "Price",
+      "link_page": "Reference to a tree",
+      "password": "Password"
+    },
+    "sections": {
+      "section": "Section of the website",
+      "directories": "Directories",
+      "users": "Users",
+      "orders": "Orders",
+      "feedback": "Feedback",
+      "forms": "Forms",
+      "messsage_template": "Message template"
+    },
+    "filed_names": {
+      "addresses_mail_template": "Addresses",
+      "mail_template_address": "Recipient address",
+      "mail_template_name_from": "Name from",
+      "mail_template_address_from": "Address from",
+      "mail_template_mail_templ": "Body letter template",
+      "addresses_mail_template_group": "Addresses group",
+      "mail_template": "Mail template",
+      "fields_of_user": "User fields",
+      "address": "Address"
+    }
+  }
+}

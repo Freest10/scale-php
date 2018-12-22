@@ -1,0 +1,27 @@
+
+            RewriteRule ^config\.ini$ / [L,R]
+            RewriteRule ^pug\.php$ / [L,R]
+            RewriteRule ^composer\.json$ / [L,R]
+            RewriteRule ^composer\.lock$ / [L,R]
+            RewriteRule ^backups / [L,R]
+            <IfModule mod_rewrite.c>
+                RewriteEngine On
+                RewriteBase /
+                RewriteCond %{REQUEST_FILENAME} -f
+                RewriteRule ^ - [L]
+                RewriteRule . /index.php [L]
+            </IfModule>
+            RewriteCond %{REQUEST_URI} !\.json
+            RewriteCond %{REQUEST_URI} !^images
+            RewriteCond %{REQUEST_URI} !^files
+            RewriteCond %{REQUEST_URI} !\.png
+            RewriteCond %{REQUEST_URI} !\.jpg
+            RewriteCond %{REQUEST_URI} !^styles
+            RewriteCond %{REQUEST_URI} !^css
+            RewriteCond %{REQUEST_URI} !\.css
+            RewriteCond %{REQUEST_URI} !^js
+            RewriteCond %{REQUEST_URI} !\.js
+            RewriteCond %{REQUEST_URI} !^ico
+            RewriteCond %{REQUEST_URI} !\.ico
+            php_flag display_errors on
+            php_flag display_startup_errors on
