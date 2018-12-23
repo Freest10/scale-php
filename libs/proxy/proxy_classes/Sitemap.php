@@ -5,7 +5,7 @@ class Sitemap
 {
     public function init()
     {
-        require_once CURRENT_WORKING_DIR . '/libs/proxy/import_libs/Sitemap.php';
+        require_once CURRENT_WORKING_DIR . '/libs/proxy/import_libs/sitemap.php';
         $sitePaths = new \SitePaths();
         $subDomainNameSiteMap = $sitePaths->getSubDomainForRequest();
         $this->showSiteMapFileBySubDomain($subDomainNameSiteMap);

@@ -18,7 +18,14 @@ class SiteMap
         $this->files->clearFolder("/sitemap/parts");
         $this->files->clearFolder("/sitemap/sitemap_index");
         $url = $this->sitePaths->getRelativePath();
-        $this->url = substr($url, 0, -1);
+        $lastUrlChar = substr($url, -1);
+
+        if ($lastUrlChar === '/') {
+            $this->url = substr($url, 0, -1);
+        } else {
+            $this->url = $url;
+        }
+
         $subDomainIds = $this->sitePaths->getSiteSubDomains();
         $config = \MainConfiguration::getInstance();
         $this->pagesPerSitemap = $config->get('system', 'sitemap_pages');
