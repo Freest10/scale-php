@@ -236,7 +236,7 @@
       "number": "Number",
       "check_box": "Checkbox",
       "select": "Select",
-      "multi_select": "Multi select",
+      "multi_select": "Multiple select",
       "simple_text": "Text",
       "html_text": "Html",
       "image_file": "Image/file",
