@@ -19,7 +19,7 @@ class PugAdapter
                 return $macros->getPages($options);
             },
             $this->prefix.'createPage' => function($parentId = 0, $pageName, $templateId = null) use($macros){
-                return $macros->getPages($parentId, $pageName, $templateId);
+                return $macros->createPage($parentId, $pageName, $templateId);
             },
             $this->prefix.'getPagesById' => function($options) use($macros){
                 return $macros->getPagesById($options);
