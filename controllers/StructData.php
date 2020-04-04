@@ -72,7 +72,7 @@ class StructData
             $valueField = $this->selectFieldSostavValues($page_id, $field_id, $this->tablesOnType[$field_type]);
         } else if ($field_type == 15) {
             $valueField = '';
-        } else if ($field_type == 5 || $field_type == 9 || $field_type == 10) {
+        } else if ($field_type == 5) {
             $valueField = $this->selectFieldValues($page_id, $field_id, $this->tablesOnType[$field_type]);
         } else {
             $valueField = $this->selectFieldValue($page_id, $field_id, $this->tablesOnType[$field_type]);
@@ -697,7 +697,6 @@ class StructData
 
         //потом устанавливаем новые
         $this->setFieldMultiValues($fieldValue, $tableName);
-
     }
 
     private function setFieldMultiValues($fieldValue, $tableName)
