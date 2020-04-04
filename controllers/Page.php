@@ -172,7 +172,8 @@ class Page
         $typeIds = $options["typeIds"];
         $sortField = $options['sortByField'];
         $sort = $options['sort'];
-        if (array_key_exists('sortBySortNum', $options)) {
+		
+		if (array_key_exists('sortBySortNum', $options)) {
             $sortBySortNum = $options['sortBySortNum'];
         } else {
             $sortBySortNum = true;
@@ -196,7 +197,7 @@ class Page
         $orderString = $this->getSqlStringForOrder($sortTable, $orderBy, $sortBySortNum);
         $sqlJoinPageInfo = $this->getSqlPageInfoJoin($findNoActives);
 
-        $sqlString = "SELECT SQL_CALC_FOUND_ROWS distinct pprnt1.id as id, pprnt1.parent_id as parent_id, pprnt1.countSortNum as sortNum, pgname.name as name, pgtmplt.template_id as template_id, pguri.full_path as full_path, dpp.h1 as h1, dpp.title as title, dpp.description as description FROM page_parent_id AS pprnt1 " . $joinOrderString . $sqlJoinPageInfo . $sqlJoins . " WHERE pprnt1.parent_id = " . $id;
+        $sqlString = "SELECT SQL_CALC_FOUND_ROWS distinct pprnt1.id as id, pprnt1.parent_id as parent_id, pprnt1.countSortNum as sortNum, pgname.name as name, pgtmplt.template_id as template_id, pguri.full_path as full_path, dpp.h1 as h1, dpp.title as title, dpp.description as description FROM page_parent_id AS pprnt1 " . $joinOrderString . $sqlJoinPageInfo . $sqlJoins . " WHERE";
 
         $sqlChildrenPages = $this->getSqlStringForChildrenPages($depth, $id, $sortBySortNum);
         $sqlString .= $sqlChildrenPages;
@@ -835,7 +836,11 @@ class Page
             for ($i = 1; $i < (int)$depth; $i++) {
                 $plusTwo = $i + 2;
                 $plusOne = $i + 1;
-                $sqlString .= " OR pprnt" . $i . ".id IN (
+				if($i > 1) {
+				   $sqlString .= " OR";
+				}
+				
+                $sqlString .= " pprnt" . $i . ".parent_id IN (
 						SELECT pprnt" . $plusTwo . ".id AS id" . $plusOne . " FROM page_parent_id AS pprnt" . $plusOne . " 
 						LEFT JOIN page_parent_id AS pprnt" . $plusTwo . " ON  pprnt" . $plusOne . ".id = pprnt" . $plusTwo . ".parent_id
 						WHERE pprnt" . $plusOne . ".parent_id = " . $id;
