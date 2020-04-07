@@ -186,7 +186,7 @@ class Page
 		
 		$totalPages = \DataBase::queryToDataBase($sqlString);
 		
-		return $totalPages["total"];		
+		return (int)$totalPages["total"];		
 	}
 
     public function getChildPages($options)
