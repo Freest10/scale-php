@@ -23,7 +23,13 @@ class Macros
         $page = new Page();
         return $page->getChildPages($options);
     }
-
+	
+	public function getTotalChildPages($options)
+    {
+        $page = new Page();
+        return $page->getTotalChildPages($options);
+    }
+	
     public function createPage($parentId = 0, $pageName, $templateId = null)
     {
         $sitePaths = new \SitePaths();
@@ -240,6 +246,15 @@ class Macros
         header("HTTP/1.0 404 Not Found");
         exit();
     }
+	
+	public function setJsonResponseHeaderContentType()
+    {
+        header('Content-Type: application/json');
+    }
+	
+	public function setAccessControlAllowOrigin() {
+		header("Access-Control-Allow-Origin: *");
+	}
 
     public function setResponseHeaderCode($code)
     {
