@@ -159,6 +159,35 @@ class Page
         array_shift($reqArr);
         return $reqArr;
     }
+	
+	public function getTotalChildPages($options)
+    {
+		$id = $options["childOf"];
+		$findNoActives = $options["noActive"];
+		$filters = $options['filters'];
+		 $depth = $options["depth"];
+		
+		if ((int)$depth === 0) return false;
+
+        $sqlJoins = "";
+        if ($typeIds) {
+            $sqlJoins .= $this->sqlStringByTypeIds($typeIds, 1);
+        }
+
+        if ($filters) {
+            $sqlJoins .= $this->sqlStringByFilters($filters, 1);
+        }
+		
+		$sqlString = "SELECT count(*) as total FROM page_parent_id AS pprnt1 " . $joinOrderString . $sqlJoins . " WHERE pprnt1.parent_id = " . $id;
+
+        $sqlChildrenPages = $this->getSqlStringForChildrenPages($depth, $id);
+		
+		$sqlString .= $sqlChildrenPages;
+		
+		$totalPages = \DataBase::queryToDataBase($sqlString);
+		
+		return $totalPages["total"];		
+	}
 
     public function getChildPages($options)
     {
