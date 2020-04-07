@@ -18,6 +18,9 @@ class PugAdapter
             $this->prefix.'getPages' => function($options) use($macros){
                 return $macros->getPages($options);
             },
+			$this->prefix.'getTotalChildPages' => function($options) use($macros){
+                return $macros->getTotalChildPages($options);
+            },
             $this->prefix.'createPage' => function($parentId = 0, $pageName, $templateId = null) use($macros){
                 return $macros->createPage($parentId, $pageName, $templateId);
             },
@@ -119,6 +122,20 @@ class PugAdapter
             },
             'logger' => function($value){
                 var_dump($value);
+            },
+			'showJson' => function($json){
+                $myJSONString = json_encode($json);
+				echo $myJSONString;
+            },
+			$this->prefix.'setJsonResponseHeaderContentType' => function() use($macros) {
+                $macros->setJsonResponseHeaderContentType();
+            },			
+			$this->prefix.'setAccessControlAllowOrigin' => function() use($macros) {
+                $macros->setAccessControlAllowOrigin();
+            },			
+			'arrayPush' => function($arrayForPushing, $value){
+                array_push($arrayForPushing, $value);
+				return $arrayForPushing;
             }
         ];
     }
