@@ -739,12 +739,20 @@ class StructData
     private function updateField($fieldValue, $tableName)
     {
         $value = addslashes ($fieldValue['value']);
-        \DataBase::justQueryToDataBase("UPDATE " . $tableName . " SET value = '" . $value . "' WHERE page_id = " . $this->structId . " and type=" . $this->structTypeId . " and field_id = " . $fieldValue['id']);
-    }
+		\DataBase::justQueryToDataBase("UPDATE " . $tableName . " SET value = " . $this->getSqlResultValue($value) . " WHERE page_id = " . $this->structId . " and type=" . $this->structTypeId . " and field_id = " . $fieldValue['id']);
+	}
 
     private function createField($fieldValue, $tableName)
     {
-        \DataBase::justQueryToDataBase("INSERT " . $tableName . " SET value = '" . $fieldValue['value'] . "', page_id = " . $this->structId . ", type=" . $this->structTypeId . ", field_id = " . $fieldValue['id']);
+        \DataBase::justQueryToDataBase("INSERT " . $tableName . " SET value = " . $this->getSqlResultValue($fieldValue['value']) . ", page_id = " . $this->structId . ", type=" . $this->structTypeId . ", field_id = " . $fieldValue['id']);
+    }
+	
+	private function getSqlResultValue($fieldValue)
+    {
+		$resultValue = (empty($fieldValue) && $fieldValue !== false && $fieldValue !== 0) ? 'NULL' : $fieldValue;
+		$sqlValue = $resultValue === 'NULL' ? $resultValue : ("'".$resultValue."'");
+		var_dump($sqlValue);
+		return $sqlValue;
     }
 
     private function getFieldsForGroup($group_id)
