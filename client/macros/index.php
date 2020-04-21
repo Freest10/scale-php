@@ -55,6 +55,12 @@ class Macros
         $page = new Page();
         $page->setPageName($pageId, $pageName);
     }
+	
+	public function getMinMaxValue($options)
+    {	
+        $page = new Page();
+        return $page->getMinMaxValue($options);
+    }
 
     //$propName: 'active' | 'url' | 'h1'  | 'title' | 'description' | 'noIndex'
     public function changeGeneralFieldOfPage($pageId, $propName, $value)
@@ -247,13 +253,44 @@ class Macros
         exit();
     }
 	
+	public function roundHalfToDown($number, $precision = 0)
+    {
+        return round($number, $precision, PHP_ROUND_HALF_DOWN);
+    }
+	
 	public function setJsonResponseHeaderContentType()
     {
         header('Content-Type: application/json');
     }
 	
+	public function isEmptyArray($array)
+    {
+        return isset($array) ? count($array) == 0 : true;
+    }
+	
+	public function isThereProperty($object, $propertyName)
+    {	
+		return isset($object[$propertyName]);
+    }
+	
 	public function setAccessControlAllowOrigin() {
-		header("Access-Control-Allow-Origin: *");
+		if (isset($_SERVER['HTTP_ORIGIN'])) {
+			// Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one
+			// you want to allow, and if so:
+			header("Access-Control-Allow-Origin: *");
+			header('Access-Control-Allow-Credentials: true');
+		}
+
+		// Access-Control headers are received during OPTIONS requests
+		if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+
+			if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+				// may also be using PUT, PATCH, HEAD etc
+				header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+
+			if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+				header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+		}
 	}
 
     public function setResponseHeaderCode($code)
