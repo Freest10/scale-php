@@ -737,9 +737,8 @@ class StructData
     }
 
     private function updateField($fieldValue, $tableName)
-    {
-        $value = addslashes ($fieldValue['value']);
-		\DataBase::justQueryToDataBase("UPDATE " . $tableName . " SET value = " . $this->getSqlResultValue($value) . " WHERE page_id = " . $this->structId . " and type=" . $this->structTypeId . " and field_id = " . $fieldValue['id']);
+    {	
+		\DataBase::justQueryToDataBase("UPDATE " . $tableName . " SET value = " . $this->getSqlResultValue($fieldValue['value']) . " WHERE page_id = " . $this->structId . " and type=" . $this->structTypeId . " and field_id = " . $fieldValue['id']);
 	}
 
     private function createField($fieldValue, $tableName)
@@ -748,10 +747,10 @@ class StructData
     }
 	
 	private function getSqlResultValue($fieldValue)
-    {
-		$resultValue = (empty($fieldValue) && $fieldValue !== false && $fieldValue !== 0) ? 'NULL' : $fieldValue;
+    {	
+		$value = is_numeric($fieldValue) ? (int)$fieldValue : addslashes ($fieldValue);
+		$resultValue = (empty($value) && $value !== false && $value !== 0) ? 'NULL' : $value;
 		$sqlValue = $resultValue === 'NULL' ? $resultValue : ("'".$resultValue."'");
-		var_dump($sqlValue);
 		return $sqlValue;
     }
 
