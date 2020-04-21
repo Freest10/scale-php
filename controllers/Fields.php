@@ -337,7 +337,8 @@ class Fields
         if ($fieldType == 1 || $fieldType == 8 || $fieldType == 9) {
             $this->insertFieldValuesToFilterFieldAsString($fieldId, $fieldTextId, $trimmedValue, $pageId, $templateId);
         } else {
-            $this->insertFieldValuesToFilterFieldAsNumber($fieldId, $fieldTextId, $trimmedValue, $pageId, $templateId);
+			$numberValue = is_numeric($trimmedValue) ? $trimmedValue : 'NULL';
+            $this->insertFieldValuesToFilterFieldAsNumber($fieldId, $fieldTextId, $numberValue, $pageId, $templateId);
         }
     }
 
