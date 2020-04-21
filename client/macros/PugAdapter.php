@@ -21,6 +21,18 @@ class PugAdapter
 			$this->prefix.'getTotalChildPages' => function($options) use($macros){
                 return $macros->getTotalChildPages($options);
             },
+			$this->prefix.'getMinMaxValue' => function($options) use($macros){
+                return $macros->getMinMaxValue($options);
+            },
+			$this->prefix.'roundHalfToDown' => function($options) use($macros){
+                return $macros->roundHalfToDown($options);
+            },
+			$this->prefix.'isThereProperty' => function($object, $propertyName) use($macros){
+                return $macros->isThereProperty($object, $propertyName);
+            },
+			$this->prefix.'isEmptyArray' => function($array) use($macros){
+                return $macros->isEmptyArray($array);
+            },
             $this->prefix.'createPage' => function($parentId = 0, $pageName, $templateId = null) use($macros){
                 return $macros->createPage($parentId, $pageName, $templateId);
             },
