@@ -12,10 +12,13 @@ class References
     private $struct_data;
     private $clientOptions;
     private $templatesType;
+	private $fields;
 
     function __construct()
     {
         $this->templatesType = \ClassesOperations::autoLoadClass('\Controller\TemplatesType', '/controllers/TemplatesType.php');
+		$this->page = \ClassesOperations::autoLoadClass('\Controller\Page', '/controllers/Page.php');
+		$this->fields = \ClassesOperations::autoLoadClass('\Controller\Fields', '/controllers/Fields.php');
     }
 
     public function getReferenceLimit($begin, $limit)
@@ -259,6 +262,10 @@ class References
     public function getReferencesDataForClient($options)
     {
         $ids = $options["ids"];
+		$sortField = $options['sortByField'];
+		$sortNullLast = $options['sortNullLast'];
+		$sortBySortNum = $options['sortBySortNum'];
+		$sortNullLast = $options['sortNullLast'];
         $this->clientOptions = $options;
         $idsToSql = "";
         if (count($ids) > 0) {
@@ -269,7 +276,7 @@ class References
                 $idsToSql .= " tin.id = " . $value;
             }
         }
-
+		
         $queryToDbQuery = \DataBase::justQueryToDataBase("
 				SELECT tin.id as id, tin.name as name
 				FROM template_id_name tin
@@ -280,21 +287,32 @@ class References
             $data = [];
             $dataId = $responseFromDb["id"];
             $data["text"] = $responseFromDb["name"];
-            $data["items"] = $this->getElementsOfRefernceClient($responseFromDb["id"]);
+            $data["items"] = $this->getElementsOfRefernceClient($responseFromDb["id"], $sortField, $sortBySortNum, $sortNullLast);
             $this->references[$dataId] = $data;
         }
         return $this->references;
     }
 
-    private function getElementsOfRefernceClient($id)
-    {
+    private function getElementsOfRefernceClient($id, $sortField = NULL, $sortBySortNum = NULL, $sortNullLast = NULL)
+    {			
+		$sortJoin = '';
+		$orderString = '';
+		if($sortField){
+			$sortTable = $this->page->getTableNameOfSortedField($sortField);
+			$fieldId = $this->fields->getIdFieldByTextId($sortField);
+			$sortJoin = "LEFT JOIN ".$sortTable." AS tblbytype ON rfd.reference_data_id = tblbytype.page_id AND tblbytype.field_id = ".$fieldId;
+			$orderString = $this->page->getSqlStringForOrder($sortTable, $orderBy, $sortBySortNum, $sortNullLast);
+		}	
+		
         $props = $this->clientOptions["props"];
         $groups = $this->clientOptions["groups"];
         $queryToDbQuery = \DataBase::justQueryToDataBase("
 				SELECT rfd.reference_data_id as id, rfd.name as name
 				FROM reference_data rfd
-				WHERE rfd.reference_id=" . $id
+				".$sortJoin."
+				WHERE rfd.reference_id=" . $id . " ".$orderString
         );
+		
         $items = [];
         while ($responseFromDb = \DataBase::responseFromDataBase($queryToDbQuery)) {
             $data = [];
