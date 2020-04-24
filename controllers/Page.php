@@ -162,6 +162,27 @@ class Page
         return $reqArr;
     }
 	
+	public function getSqlStringForOrder($sortTable, $orderBy, $sortBySortNum, $sortNullLast)
+    {
+        if (!$orderBy) {
+            $orderBy = 'ASC';
+        }
+
+        if ($sortTable) {
+			if(sortNullLast) {
+				$orderString = " ORDER BY tblbytype.value IS NULL, tblbytype.value " . $orderBy;
+			}else{
+				$orderString = " ORDER BY tblbytype.value " . $orderBy;
+			}
+        } else if ($sortBySortNum) {
+            $orderString = " ORDER BY sortNum " . $orderBy;
+        } else {
+            $orderString = " ORDER BY name " . $orderBy;
+        }
+
+        return $orderString;
+    }
+	
 	public function getTotalChildPages($options)
     {
 		$id = $options["childOf"];
@@ -384,6 +405,25 @@ class Page
     {
         $this->id = $pageId;
         $this->createTypePage($templateId);
+    }
+	
+	public function getOrderValue($value)
+    {
+        if ($value === "DESC" || $value === "ASC") {
+            return $value;
+        }
+
+        return NULL;
+    }
+	
+	public function getSqlStringToJoinOrder($sortTable, $fieldName)
+    {
+        $joinOrderString = "";
+        if ($sortTable) {
+			$fieldId = $this->fields->getIdFieldByTextId($fieldName);
+            $joinOrderString = "LEFT JOIN " . $sortTable . " AS tblbytype ON pprnt1.id = tblbytype.page_id AND tblbytype.field_id = ".$fieldId;
+        }
+        return $joinOrderString;
     }
 	
 	public function getMinMaxValue($options) {
@@ -712,6 +752,20 @@ class Page
         }
         \Response::goodResponse();
     }
+	
+	public function getTableNameOfSortedField($sortField)
+    {
+        if ($sortField) {
+            $sortedTableName = \DataBase::queryToDataBase("SELECT tf.table_name AS table_name FROM field_id_name AS fin
+                INNER JOIN field_id_field_type fift ON fift.id = fin.id 
+                INNER JOIN type_fields tf ON tf.id = fift.type_id
+				WHERE fin.text_id = '$sortField'
+				")["table_name"];
+        } else {
+            $sortedTableName = NULL;
+        }
+        return $sortedTableName;
+    }
 
     private function deleteChildrenPages($parent_id)
     {
@@ -794,20 +848,6 @@ class Page
         }
 
         return $resultString;
-    }
-
-    private function getTableNameOfSortedField($sortField)
-    {
-        if ($sortField) {
-            $sortedTableName = \DataBase::queryToDataBase("SELECT tf.table_name AS table_name FROM field_id_name AS fin
-                INNER JOIN field_id_field_type fift ON fift.id = fin.id 
-                INNER JOIN type_fields tf ON tf.id = fift.type_id
-				WHERE fin.text_id = '$sortField'
-				")["table_name"];
-        } else {
-            $sortedTableName = NULL;
-        }
-        return $sortedTableName;
     }
 
     private function sqlStringByTypeIds($typeIds, $num)
@@ -928,25 +968,6 @@ class Page
         return $sqlString;
     }
 
-    private function getSqlStringToJoinOrder($sortTable, $fieldName)
-    {
-        $joinOrderString = "";
-        if ($sortTable) {
-			$fieldId = $this->fields->getIdFieldByTextId($fieldName);
-            $joinOrderString = "LEFT JOIN " . $sortTable . " AS tblbytype ON pprnt1.id = tblbytype.page_id AND tblbytype.field_id = ".$fieldId;
-        }
-        return $joinOrderString;
-    }
-
-    private function getOrderValue($value)
-    {
-        if ($value === "DESC" || $value === "ASC") {
-            return $value;
-        }
-
-        return NULL;
-    }
-
     private function getSqlStringLimit($page, $limit)
     {
         $sqlLimit = "";
@@ -960,27 +981,6 @@ class Page
             $sqlLimit .= $limit;
         }
         return $sqlLimit;
-    }
-
-    private function getSqlStringForOrder($sortTable, $orderBy, $sortBySortNum, $sortNullLast)
-    {
-        if (!$orderBy) {
-            $orderBy = 'ASC';
-        }
-
-        if ($sortTable) {
-			if(sortNullLast) {
-				$orderString = " ORDER BY tblbytype.value IS NULL, tblbytype.value " . $orderBy;
-			}else{
-				$orderString = " ORDER BY tblbytype.value " . $orderBy;
-			}
-        } else if ($sortBySortNum) {
-            $orderString = " ORDER BY sortNum " . $orderBy;
-        } else {
-            $orderString = " ORDER BY name " . $orderBy;
-        }
-
-        return $orderString;
     }
 
     private function getSqlStringForChildrenPages($depth, $id, $sortBySortNum)
