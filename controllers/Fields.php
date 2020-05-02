@@ -334,23 +334,32 @@ class Fields
     private function insertFieldValuesToFilterField($fieldId, $fieldTextId, $fieldValue, $pageId, $templateId, $fieldType)
     {
         $trimmedValue = trim($fieldValue);
-        if ($fieldType == 1 || $fieldType == 8 || $fieldType == 9) {
+        if ($fieldType == 1 || $fieldType == 8) {
             $this->insertFieldValuesToFilterFieldAsString($fieldId, $fieldTextId, $trimmedValue, $pageId, $templateId);
-        } else {
-			$numberValue = is_numeric($trimmedValue) ? $trimmedValue : 'NULL';
+        } else if($fieldType == 9) {
+			$dateValue = $trimmedValue ? $trimmedValue : 'NULL';
+			$this->insertFieldValuesToFilterFieldAsDate($fieldId, $fieldTextId, $dateValue, $pageId, $templateId);
+		}else {
+			$numberValue = is_numeric($trimmedValue) ? '"'.$trimmedValue."'" : 'NULL';
             $this->insertFieldValuesToFilterFieldAsNumber($fieldId, $fieldTextId, $numberValue, $pageId, $templateId);
         }
     }
 
     private function insertFieldValuesToFilterFieldAsNumber($fieldId, $fieldTextId, $fieldValue, $pageId, $templateId)
-    {
-        \DataBase::justQueryToDataBase("INSERT filter_fields SET page_id = " . $pageId . ", field_id=" . $fieldId . ", field_value=" . $fieldValue . ", template_id=" . $templateId . ", field_name='" . $fieldTextId . "'");
+    {	
+		\DataBase::justQueryToDataBase("INSERT filter_fields SET page_id = " . $pageId . ", field_id=" . $fieldId . ", field_value=" . $fieldValue . ", template_id=" . $templateId . ", field_name='" . $fieldTextId . "'");
     }
 
     private function insertFieldValuesToFilterFieldAsString($fieldId, $fieldTextId, $fieldValue, $pageId, $templateId)
     {
         \DataBase::justQueryToDataBase("INSERT filter_fields SET page_id = " . $pageId . ", field_id=" . $fieldId . ", field_value_string='" . $fieldValue . "', template_id=" . $templateId . ", field_name='" . $fieldTextId . "'");
     }
+	
+	private function insertFieldValuesToFilterFieldAsDate($fieldId, $fieldTextId, $fieldValue, $pageId, $templateId)
+    {
+        \DataBase::justQueryToDataBase("INSERT filter_fields SET page_id = " . $pageId . ", field_id=" . $fieldId . ", field_value_date=" . $fieldValue . ", template_id=" . $templateId . ", field_name='" . $fieldTextId . "'");
+    }
+
 
     private function isFilteredField($id)
     {
