@@ -332,15 +332,15 @@ class Fields
     }
 
     private function insertFieldValuesToFilterField($fieldId, $fieldTextId, $fieldValue, $pageId, $templateId, $fieldType)
-    {
-        $trimmedValue = trim($fieldValue);
+    {	
+	    $trimmedValue = trim($fieldValue);
         if ($fieldType == 1 || $fieldType == 8) {
             $this->insertFieldValuesToFilterFieldAsString($fieldId, $fieldTextId, $trimmedValue, $pageId, $templateId);
         } else if($fieldType == 9) {
 			$dateValue = $trimmedValue ? $trimmedValue : 'NULL';
 			$this->insertFieldValuesToFilterFieldAsDate($fieldId, $fieldTextId, $dateValue, $pageId, $templateId);
 		}else {
-			$numberValue = is_numeric($trimmedValue) ? '"'.$trimmedValue."'" : 'NULL';
+			$numberValue = is_numeric($trimmedValue) ? (int)$trimmedValue : 'NULL';
             $this->insertFieldValuesToFilterFieldAsNumber($fieldId, $fieldTextId, $numberValue, $pageId, $templateId);
         }
     }
