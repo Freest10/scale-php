@@ -213,7 +213,6 @@ class Page
         $sqlChildrenPages = $this->getSqlStringForChildrenPages($depth, $id);
 		
 		$sqlString .= $sqlChildrenPages;
-		
 		$totalPages = \DataBase::queryToDataBase($sqlString);
 		
 		return (int)$totalPages["total"];		
@@ -261,7 +260,7 @@ class Page
         $sqlLimit = $this->getSqlStringLimit($page, $limit);
         $sqlString .= $sqlLimit;
         $sqlStringSecond = "SELECT FOUND_ROWS()";
-
+	
         $childrenPagesReqToDb = \DataBase::justQueryToDataBase($sqlString);
         $result = [];
         $pages = [];
@@ -949,17 +948,21 @@ class Page
 	private function getSqlFilterFieldString($tableNameOfProperties, $value) {
 		$sqlString .= " " . $tableNameOfProperties . ".field_name = '" . $value["name"] . "'";
 		$fieldName = $value["dateType"] ? 'field_value_date' : 'field_value';
+		$minValue = $value["dateType"] ? "'".$value["min"]."'" : $value["min"];
+		$maxValue = $value["dateType"] ? "'".$value["max"]."'" : $value["max"];
 		if (isset($value["min"]) && isset($value["max"])) {
-			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." BETWEEN " . $value["min"] . " AND " . $value["max"];
+			
+			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." BETWEEN " . $minValue . " AND " . $maxValue;
 		} else if (isset($value["min"])) {
-			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." >= " . $value["min"];
+			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." >= " . $minValue;
 		} else if (isset($value["max"])) {
-			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." <= " . $value["max"];
+			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." <= " . $maxValue;
 		} else if (isset($value["equal"])) {
 			if (is_string($value["equal"])) {
 				$sqlString .= " AND " . $tableNameOfProperties . ".field_value_string = '" . $value["equal"] . "'";
 			} else {
-				$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." = " . $value["equal"];
+				$value = $value["dateType"] ? "'".$value["equal"]."'" : $value["equal"];
+				$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." = " . $value;
 			}
 		} else if (isset($value["contains"])) {
 			if (is_string($value["contains"])) {
@@ -1044,7 +1047,7 @@ class Page
         return $sqlString;
     }
 
-    private function getSqlPageInfoJoin($findNoActives, $noActiveOnly)
+    private function getSqlPageInfoJoin($findNoActives, $noActiveOnly = false)
     {
         $sqlPageInfoJoin = "
 				INNER JOIN page_id_name pgname ON pprnt1.id = pgname.id 
@@ -1053,7 +1056,7 @@ class Page
                 INNER JOIN page_id_active pgactv ON pprnt1.id = pgactv.id
                 INNER JOIN dop_properties_page dpp ON pprnt1.id = dpp.id
 			";
-        if (!$findNoActives) {
+        if (!$findNoActives && !$noActiveOnly) {
             $sqlPageInfoJoin .= " AND pgactv.active=1";
         }
 		
