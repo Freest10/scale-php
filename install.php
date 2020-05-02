@@ -280,8 +280,9 @@ class InstallCms
                 "template_id INT(11)",
                 "field_id INT(11)",
                 "field_name varchar(255)",
-                "field_value int(11)",
+                "field_value double", // Changed from int(11)
                 "field_value_string varchar(255) DEFAULT NULL",
+				"field_value_date date",
                 "FOREIGN KEY (page_id) REFERENCES page_id_name(id) ON DELETE CASCADE",
                 "FOREIGN KEY (field_id) REFERENCES field_id_name(id) ON DELETE CASCADE"
             ],
