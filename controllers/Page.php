@@ -169,10 +169,16 @@ class Page
         }
 
         if ($sortTable) {
-			if(sortNullLast) {
-				$orderString = " ORDER BY tblbytype.value IS NULL, tblbytype.value " . $orderBy;
-			}else{
-				$orderString = " ORDER BY tblbytype.value " . $orderBy;
+			if(is_array($sortTable)) {
+				foreach ($sortTable as $key => $value) {
+					$orderString = " ORDER BY tblbytype".$key.".value ". $orderBy;
+				}
+			} else {
+				if(sortNullLast) {
+					$orderString = " ORDER BY tblbytype.value IS NULL, tblbytype.value " . $orderBy;
+				}else{
+					$orderString = " ORDER BY tblbytype.value " . $orderBy;
+				}
 			}
         } else if ($sortBySortNum) {
             $orderString = " ORDER BY sortNum " . $orderBy;
@@ -222,6 +228,7 @@ class Page
         $page = $options["begin"];
         $limit = $options["limit"];
         $findNoActives = $options["noActive"];
+		$findNoActiveOnly = $options["noActiveOnly"];
         $typeIds = $options["typeIds"];
         $sortField = $options['sortByField'];
         $sort = $options['sort'];
@@ -239,11 +246,12 @@ class Page
             $sqlJoins .= $this->sqlStringByFilters($filters, 1);
         }
 
-        $sortTable = $this->getTableNameOfSortedField($sortField);
+        $sortTable = is_array($sortField) ? $this->getTableNamesOfSortedField($sortField) : $this->getTableNameOfSortedField($sortField);
         $orderBy = $this->getOrderValue($sort);
-        $joinOrderString = $this->getSqlStringToJoinOrder($sortTable, $sortField);
+        $joinOrderString = is_array($sortField) ? $this->getSqlStringToJoinsOrder($sortTable, $sortField) : $this->getSqlStringToJoinOrder($sortTable, $sortField);
+
         $orderString = $this->getSqlStringForOrder($sortTable, $orderBy, $sortBySortNum, $sortNullLast);
-        $sqlJoinPageInfo = $this->getSqlPageInfoJoin($findNoActives);
+        $sqlJoinPageInfo = $this->getSqlPageInfoJoin($findNoActives, $findNoActiveOnly);
 
         $sqlString = "SELECT SQL_CALC_FOUND_ROWS distinct pprnt1.id as id, pprnt1.parent_id as parent_id, pgname.name as name, pgtmplt.template_id as template_id, pguri.full_path as full_path, dpp.h1 as h1, dpp.title as title, dpp.description as description FROM page_parent_id AS pprnt1 " . $joinOrderString . $sqlJoinPageInfo . $sqlJoins . " WHERE pprnt1.parent_id = " . $id;
 
@@ -253,6 +261,7 @@ class Page
         $sqlLimit = $this->getSqlStringLimit($page, $limit);
         $sqlString .= $sqlLimit;
         $sqlStringSecond = "SELECT FOUND_ROWS()";
+
         $childrenPagesReqToDb = \DataBase::justQueryToDataBase($sqlString);
         $result = [];
         $pages = [];
@@ -416,12 +425,23 @@ class Page
         return NULL;
     }
 	
-	public function getSqlStringToJoinOrder($sortTable, $fieldName)
+	public function getSqlStringToJoinsOrder($sortTable, $fieldName)
+    {
+        $joinOrderString = "";
+        foreach ($sortTable as $key => $value) {
+			$joinOrderString .= $this->getSqlStringToJoinOrder($value, $fieldName[$key], $key);
+			$joinOrderString .= " "; 
+		}
+
+        return $joinOrderString;
+    }
+	
+	public function getSqlStringToJoinOrder($sortTable, $fieldName, $index = '')
     {
         $joinOrderString = "";
         if ($sortTable) {
 			$fieldId = $this->fields->getIdFieldByTextId($fieldName);
-            $joinOrderString = "LEFT JOIN " . $sortTable . " AS tblbytype ON pprnt1.id = tblbytype.page_id AND tblbytype.field_id = ".$fieldId;
+            $joinOrderString = "LEFT JOIN " . $sortTable . " AS tblbytype".$index." ON pprnt1.id = tblbytype".$index.".page_id AND tblbytype".$index.".field_id = ".$fieldId;
         }
         return $joinOrderString;
     }
@@ -753,12 +773,24 @@ class Page
         \Response::goodResponse();
     }
 	
+	public function getTableNamesOfSortedField($sortFields)
+    {
+	   $result = [];
+       if(is_array ($sortFields)) {
+			foreach ($sortFields as $sortFieldName) {
+				array_push($result, $this->getTableNameOfSortedField($sortFieldName));
+			}
+		}
+		
+		return $result;
+    }
+	
 	public function getTableNameOfSortedField($sortField)
     {
         if ($sortField) {
-            $sortedTableName = \DataBase::queryToDataBase("SELECT tf.table_name AS table_name FROM field_id_name AS fin
-                INNER JOIN field_id_field_type fift ON fift.id = fin.id 
-                INNER JOIN type_fields tf ON tf.id = fift.type_id
+			$sortedTableName = \DataBase::queryToDataBase("SELECT tf.table_name AS table_name FROM field_id_name AS fin
+				INNER JOIN field_id_field_type fift ON fift.id = fin.id 
+				INNER JOIN type_fields tf ON tf.id = fift.type_id
 				WHERE fin.text_id = '$sortField'
 				")["table_name"];
         } else {
@@ -916,17 +948,18 @@ class Page
 	
 	private function getSqlFilterFieldString($tableNameOfProperties, $value) {
 		$sqlString .= " " . $tableNameOfProperties . ".field_name = '" . $value["name"] . "'";
+		$fieldName = $value["dateType"] ? 'field_value_date' : 'field_value';
 		if (isset($value["min"]) && isset($value["max"])) {
-			$sqlString .= " AND " . $tableNameOfProperties . ".field_value BETWEEN " . $value["min"] . " AND " . $value["max"];
+			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." BETWEEN " . $value["min"] . " AND " . $value["max"];
 		} else if (isset($value["min"])) {
-			$sqlString .= " AND " . $tableNameOfProperties . ".field_value >= " . $value["min"];
+			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." >= " . $value["min"];
 		} else if (isset($value["max"])) {
-			$sqlString .= " AND " . $tableNameOfProperties . ".field_value <= " . $value["max"];
+			$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." <= " . $value["max"];
 		} else if (isset($value["equal"])) {
 			if (is_string($value["equal"])) {
 				$sqlString .= " AND " . $tableNameOfProperties . ".field_value_string = '" . $value["equal"] . "'";
 			} else {
-				$sqlString .= " AND " . $tableNameOfProperties . ".field_value = " . $value["equal"];
+				$sqlString .= " AND " . $tableNameOfProperties . ".".$fieldName." = " . $value["equal"];
 			}
 		} else if (isset($value["contains"])) {
 			if (is_string($value["contains"])) {
@@ -1011,7 +1044,7 @@ class Page
         return $sqlString;
     }
 
-    private function getSqlPageInfoJoin($findNoActives)
+    private function getSqlPageInfoJoin($findNoActives, $noActiveOnly)
     {
         $sqlPageInfoJoin = "
 				INNER JOIN page_id_name pgname ON pprnt1.id = pgname.id 
@@ -1023,6 +1056,11 @@ class Page
         if (!$findNoActives) {
             $sqlPageInfoJoin .= " AND pgactv.active=1";
         }
+		
+		if($noActiveOnly) {
+			$sqlPageInfoJoin .= " AND pgactv.active=0";
+		}
+		
         return $sqlPageInfoJoin;
     }
 }
