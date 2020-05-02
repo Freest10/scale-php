@@ -193,6 +193,7 @@ class Page
     {
 		$id = $options["childOf"];
 		$findNoActives = $options["noActive"];
+		$findNoActiveOnly = $options["findNoActiveOnly"];
 		$filters = $options['filters'];
 		 $depth = $options["depth"];
 		
@@ -207,7 +208,8 @@ class Page
             $sqlJoins .= $this->sqlStringByFilters($filters, 1);
         }
 		
-		$sqlString = "SELECT count(*) as total FROM page_parent_id AS pprnt1 " . $sqlJoins . " WHERE pprnt1.parent_id = " . $id;
+		$sqlJoinPageInfo = $this->getSqlPageInfoJoin($findNoActives, $findNoActiveOnly);
+		$sqlString = "SELECT count(*) as total FROM page_parent_id AS pprnt1 " . $sqlJoinPageInfo . $sqlJoins . " WHERE pprnt1.parent_id = " . $id;
 		
 
         $sqlChildrenPages = $this->getSqlStringForChildrenPages($depth, $id);
