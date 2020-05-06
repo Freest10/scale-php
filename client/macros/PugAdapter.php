@@ -21,6 +21,9 @@ class PugAdapter
 			$this->prefix.'getTotalChildPages' => function($options) use($macros){
                 return $macros->getTotalChildPages($options);
             },
+			$this->prefix.'getCurrentDateMinusDays' => function($days) use($macros){
+                return $macros->getCurrentDateMinusDays($days);
+            },
 			$this->prefix.'getMinMaxValue' => function($options) use($macros){
                 return $macros->getMinMaxValue($options);
             },
@@ -148,7 +151,18 @@ class PugAdapter
 			'arrayPush' => function($arrayForPushing, $value){
                 array_push($arrayForPushing, $value);
 				return $arrayForPushing;
-            }
+            },
+			'explodeTrimString' => function($string, $delimeter){
+                $explodedString = explode($delimeter, trim ($string));
+				$resultArray = [];
+				foreach ($explodedString as $value) {
+					if($value !== NULL && $value !== ''){
+						array_push($resultArray, trim($value));
+					}
+				}
+				return $resultArray;
+            },
+			
         ];
     }
 }
