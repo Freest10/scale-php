@@ -162,7 +162,9 @@ class PugAdapter
 				}
 				return $resultArray;
             },
-			
+			'shuffle' => function($array){
+				return shuffle($array);
+            },
         ];
     }
 }
