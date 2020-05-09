@@ -208,8 +208,9 @@ class Page
             $sqlJoins .= $this->sqlStringByFilters($filters, 1);
         }
 		
+		
 		$sqlJoinPageInfo = $this->getSqlPageInfoJoin($findNoActives, $findNoActiveOnly);
-		$sqlString = "SELECT count(*) as total FROM page_parent_id AS pprnt1 " . $sqlJoinPageInfo . $sqlJoins . " WHERE pprnt1.parent_id = " . $id;
+		$sqlString = "SELECT count(*) as total FROM page_parent_id AS pprnt1 " . $sqlJoinPageInfo . $sqlJoins ." WHERE pprnt1.parent_id = " . $id;
 		
 
         $sqlChildrenPages = $this->getSqlStringForChildrenPages($depth, $id);
@@ -261,6 +262,7 @@ class Page
         $sqlString .= $orderString;
         $sqlLimit = $this->getSqlStringLimit($page, $limit);
         $sqlString .= $sqlLimit;
+		
         $sqlStringSecond = "SELECT FOUND_ROWS()";
 	
         $childrenPagesReqToDb = \DataBase::justQueryToDataBase($sqlString);
@@ -475,17 +477,17 @@ class Page
 		$sqlJoinMin = $this->getSqlStringByMinMaxFilters($minFieldsValues, $tableTypeName, $minPostFix);
 		$sqlJoinMax = $this->getSqlStringByMinMaxFilters($maxFieldsValue, $tableTypeName, $maxPostFix);
 		
+		$activePageTypeJoin = $this->getSqlPageActiveForTotal($findNoActives, $findNoActiveOnly);
+		
 		if(strlen($selectMin) > 0 && strlen($selectMax) > 0){
 			$selectMin .= ', ';
 		}
 		
-		$sqlString = "SELECT ". $selectMin . $selectMax ." FROM page_parent_id AS pprnt1 " . $sqlJoins . " " .$sqlJoinMin. " " .$sqlJoinMax.  " WHERE pprnt1.parent_id = " . $id;
+		$sqlString = "SELECT ". $selectMin . $selectMax ." FROM page_parent_id AS pprnt1 " . $sqlJoins . $activePageTypeJoin . " " .$sqlJoinMin. " " .$sqlJoinMax.  " WHERE pprnt1.parent_id = " . $id;
 		
-
         $sqlChildrenPages = $this->getSqlStringForChildrenPages($depth, $id);
 		
 		$sqlString .= $sqlChildrenPages;
-		
 		$resultQuery = \DataBase::queryToDataBase($sqlString);
 		$result = [];
 		
@@ -998,7 +1000,7 @@ class Page
         if (count($fieldNames) > 0) {
             foreach ($fieldNames as $key => $value) {
                 $tableNameOfProperties = $tableTypeName . $postFix . $key;
-                $sqlString .= " INNER join filter_fields as " . $tableNameOfProperties . " on pprnt1.id = " . $tableNameOfProperties . ".page_id and (";
+                $sqlString .= " LEFT join filter_fields as " . $tableNameOfProperties . " on pprnt1.id = " . $tableNameOfProperties . ".page_id and (";
                 $sqlString .= " " . $tableNameOfProperties . ".field_name = '" . $value . "'";
                 $sqlString .= ")";
             }
@@ -1058,6 +1060,21 @@ class Page
                 INNER JOIN page_id_active pgactv ON pprnt1.id = pgactv.id
                 INNER JOIN dop_properties_page dpp ON pprnt1.id = dpp.id
 			";
+        if (!$findNoActives && !$noActiveOnly) {
+            $sqlPageInfoJoin .= " AND pgactv.active=1";
+        }
+		
+		if($noActiveOnly) {
+			$sqlPageInfoJoin .= " AND pgactv.active=0";
+		}
+		
+        return $sqlPageInfoJoin;
+    }
+	
+	private function getSqlPageActiveForTotal($findNoActives, $noActiveOnly = false)
+    {
+        $sqlPageInfoJoin = "INNER JOIN page_id_active pgactv ON pprnt1.id = pgactv.id";
+		
         if (!$findNoActives && !$noActiveOnly) {
             $sqlPageInfoJoin .= " AND pgactv.active=1";
         }
