@@ -1023,7 +1023,7 @@ class Page
         return $sqlLimit;
     }
 
-    private function getSqlStringForChildrenPages($depth, $id, $sortBySortNum)
+    private function getSqlStringForChildrenPages($depth, $id, $sortBySortNum = NULL)
     {
         $sqlString = "";
         if ((int)$depth > 1) {
