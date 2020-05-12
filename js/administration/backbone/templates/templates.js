@@ -1,5 +1,5 @@
 
-define(['jquery', 'jstree'], function($, tree_functions) {
+define(['jquery', 'jstree', 'jstree.search'], function($, tree_functions) {
 	
 	var footerTemplate = '<footer class="footer_blck"><div class="save_cancel_template_block"><button type="button" class="btn btn-w-m btn-default delete-active-tree">'+getTranslate("frontend.footer.buttons.de_select")+'</button><button type="button" class="btn btn-w-m btn-default delete-template" disabled>'+getTranslate("frontend.footer.buttons.delete")+'</button><button type="button" class="btn btn-w-m btn-danger addtemplate">'+getTranslate("frontend.footer.buttons.add_template")+'</button></div></footer>';
 	
@@ -29,6 +29,7 @@ define(['jquery', 'jstree'], function($, tree_functions) {
 					
 					shareBackboneFunctions.removeView(this);
 					this.treeView = tree.init();
+					this.$el.append(tree.getSearchTree());
 					this.$el.append(this.treeView.el);
 					var treeRequest = tree.requestToData('/templates_type');
 					treeRequest.get();
