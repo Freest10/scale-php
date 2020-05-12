@@ -1,6 +1,6 @@
 <?php
 
-class JsonException extends ExceptionMessage
+class JsonExceptionRoot extends ExceptionMessage
 {
     private $typeName;
     private $message;
