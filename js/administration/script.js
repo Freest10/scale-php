@@ -294,11 +294,16 @@ var tree = {
             id: "tree_sturcture",
             initialize: function () {
                 this.render();
+				
             }
         });
         var treeView = new TreeView();
+		
         return treeView;
     },
+	getSearchTree: function(){
+		return '<input id="search-tree" placeholder="Поиск"/>';
+	},
     removeClassActiveNode: function () {
         $('.activeLiTree').removeClass('activeLiTree');
     },
@@ -319,7 +324,10 @@ var tree = {
                         var jstreeData = [];
                         jstreeData.push(data.attributes);
                         var jsTreeSettings = {};
-                        jsTreeSettings.core = {'data': jstreeData};
+						console.log(jstreeData);
+						self.updateHrefs(jstreeData[0])
+						// TODO recursion on for relative url a_attr
+                        jsTreeSettings.core = {'data': jstreeData };
                         jsTreeSettings.core.check_callback = true;
 
                         if (!options) {
@@ -329,19 +337,33 @@ var tree = {
                         if (options.dnd) {
                             jsTreeSettings.plugins = ["dnd"];
                         }
+						
+						if (jsTreeSettings.plugins){
+							jsTreeSettings.plugins.push('search')
+						} else {
+							jsTreeSettings.plugins = ["search"];
+						}
 
                         $('#tree_sturcture').jstree(jsTreeSettings).on('changed.jstree', function (e, data) {
                             if (data != null) {
                                 if (data.node != null) {
-                                    var idToHref = data.node.a_attr.href;
-                                    if (idToHref) {
-                                        var activeRouter = routers.activeRouter();
-                                        activeRouter += "/" + idToHref;
-                                        Backbone.history.navigate(activeRouter, {trigger: true});
+                                    var href = data.node.a_attr.href;
+                                    if (href) {
+                                        Backbone.history.navigate(href, {trigger: true});
                                     }
                                 }
                             }
                         });
+						
+						var to;
+						$('#search-tree').keyup(function () {
+							if(to) { clearTimeout(to); }
+							to = setTimeout(function () {
+							  var v = $('#search-tree').val();
+							  var tree = $('#tree_sturcture')
+							  $('#tree_sturcture').jstree(true).search(v);
+							}, 250);
+						});
                         /*.on("move_node.jstree", function (e, data) {
                                                     console.log(e, data, "move");
                                                 })*/
@@ -356,8 +378,16 @@ var tree = {
 
         requestToData = new TreeModel();
         return requestToData;
-    }
-
+    },
+	updateHrefs: function(jstreeData) {
+		const hash = location.hash;
+		if(jstreeData.children){
+			jstreeData.children.forEach(function(data) {
+				data.a_attr.href = location.hash + '/' + data.a_attr.href;
+				this.updateHrefs(data);
+			}.bind(this))
+		}
+	}
 };
 
 var contentPart = {
@@ -404,6 +434,7 @@ requirejs.config({
         'tinymce_imagetools': 'tinymce/imagetools/plugin.min',
         'tinymce_ru_lang': 'tinymce/lang/ru',
         'jstree.dnd': 'treeview/jstree.dnd',
+		'jstree.search': 'treeview/jstree.search',
         'list_view': 'backbone/system/list_data',
         'tabs': 'backbone/system/tabs'
     },
