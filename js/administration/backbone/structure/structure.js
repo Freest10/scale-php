@@ -1,4 +1,4 @@
-define(['jquery', 'jstree', 'jstree.dnd'], function ($, tree_functions) {
+define(['jquery', 'jstree', 'jstree.dnd', 'jstree.search'], function ($, tree_functions) {
 
     // Return module with methods
     return {
@@ -22,6 +22,8 @@ define(['jquery', 'jstree', 'jstree.dnd'], function ($, tree_functions) {
                     shareBackboneFunctions.removeView(this);
                     var self = this;
                     self.treeView = tree.init();
+					self.$el.append(tree.getSearchTree());
+					
                     self.$el.append(self.treeView.el);
                     var treeRequest = tree.requestToData('/page', {dnd: true}, {subDomain: getCookie('subDomain')});
                     treeRequest.get();
