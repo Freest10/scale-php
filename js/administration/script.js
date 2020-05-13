@@ -324,7 +324,7 @@ var tree = {
                         var jstreeData = [];
                         jstreeData.push(data.attributes);
                         var jsTreeSettings = {};
-						self.updateHrefs(jstreeData[0])
+						self.updateHrefs(data.attributes)
 						// TODO recursion on for relative url a_attr
                         jsTreeSettings.core = {'data': jstreeData };
                         jsTreeSettings.core.check_callback = true;
