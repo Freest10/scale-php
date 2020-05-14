@@ -164,7 +164,6 @@ define(['jquery'], function($) {
 					return this;
 				},
 				renderH1: function () {
-					console.log(templateH1,'renderH1');
 					this.$el.find('.directory_name_block, .editH1BlockForm').remove();
 					this.$el.prepend(this.templateDirectoryName(this.collectionModel.attributes));
 				},
