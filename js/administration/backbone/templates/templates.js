@@ -60,6 +60,7 @@ define(['jquery', 'jstree', 'jstree.search'], function($, tree_functions) {
 						alert(getTranslate("frontend.errors.data_response"));
 					  },
 					  success: function(data){
+						tree.updateHrefs(data.changed);
 						var arrData = [data.changed];
 						tree.setNewData(self.treeView.$el.attr('id'), arrData);
 						self.idSelectedNode = null;
