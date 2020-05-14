@@ -85,6 +85,7 @@ define(['jquery', 'jstree', 'jstree.dnd', 'jstree.search'], function ($, tree_fu
                             alert(getTranslate("frontend.errors.data_response"));
                         },
                         success: function (data) {
+							tree.updateHrefs(data.changed);
                             var arrData = [data.changed];
                             tree.setNewData(self.treeView.$el.attr('id'), arrData);
                             self.idSelectedNode = null;
@@ -142,6 +143,4 @@ define(['jquery', 'jstree', 'jstree.dnd', 'jstree.search'], function ($, tree_fu
             var contentPartTemplatesTypeView = new ContentPartTemplatesTypeView();
         }
     }
-
-
 });
