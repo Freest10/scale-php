@@ -10319,6 +10319,7 @@ label > div {
 select {
     width: 170px;
     padding: 3px 5px 3px 5px;
+	resize: both;
 }
 
 .addGroupButton {
