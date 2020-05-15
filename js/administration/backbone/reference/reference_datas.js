@@ -11,7 +11,7 @@ define(['jquery'], function($) {
 				}
 			});
 			
-			var tableTemlpate = '<div class="referenceTable"><table id="ref_table_datas"></table></div>';
+			var tableTemlpate = '<div class="referenceTable"><input class="search-reference" placeholder='+getTranslate("frontend.share.search")+'><table id="ref_table_datas"></table></div>';
 			var refDataList = '<td class="td_name_ref"><a href="#!/references/reference/'+id+'/element/<%= id %>"><%= name %></a></td><td class="editRefDataList"><button type="button" class="btn btn-primary editBtn editRefData"><i class="fa fa-edit"></i></button><button class="btn btn-danger deleteButton deleteElemReference"><i class="fa fa-times"></i></button></td>';
 			var editRefDataList = '<div class="editDataRef"><input class="inpChangeNameDataRef" type="text" value="<%= name %>" /><button type="button" class="btn btn-w-m btn-default cancel_save_reference_data_list">'+getTranslate("frontend.footer.buttons.cancel")+'</button><button type="button" class="btn btn-w-m btn-danger save_reference_list">'+getTranslate("frontend.footer.buttons.apply")+'</button></div>'
 			
@@ -74,6 +74,7 @@ define(['jquery'], function($) {
 				tableTemplate: _.template(tableTemlpate),
 				templateDirectoryName: _.template(templateH1),
 				templateEditH1: _.template(templateEditH1),
+				query: null,
 				initialize: function (){
 					shareBackboneFunctions.removeView(this);
 					this.getReferenceDatas();
@@ -145,9 +146,25 @@ define(['jquery'], function($) {
 					this.collectionModelReqRef = new ReferenceDatasModel();
 					generalSettings.sync('read',this.collectionModelReqRef, optionsSync);
 				},
+				initSearchList: function(){
+					var to;
+					var self = this;
+					this.query = null;
+					$('.search-reference').keyup(function () {
+						if(to) { clearTimeout(to); }
+						to = setTimeout(function () {
+						  self.query = ($('.search-reference').val() || '').trim().toLowerCase();
+						  
+						  self.renderRefDatasList();
+						}, 250);
+					});
+				},
 				renderRefDatasList: function(){
 					this.$el.find("#ref_table_datas").empty();
-					_.each(this.collectionModel.attributes.items, function (item) {
+					const resultItems = (this.collectionModel.attributes.items || []).filter(function(item) {
+						return this.query ? (item.name || '').trim().toLowerCase().indexOf(this.query) > -1 : true;
+					}.bind(this))
+					_.each(resultItems, function (item) {
 						this.renderRefDataList(item);
 					}, this);
 				},
@@ -160,6 +177,7 @@ define(['jquery'], function($) {
 				render: function () {
 					this.$el.find('.referenceTable').remove();
 					this.$el.append(this.tableTemplate());
+					this.initSearchList();
 					this.renderRefDatasList();
 					return this;
 				},
