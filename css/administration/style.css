@@ -10548,6 +10548,12 @@ ul {
     display: block;
 }
 
+#ref_table_datas {
+	height: calc(100vh - 205px);
+    overflow: auto;
+    display: block;
+}
+
 .editRefDataList {
     display: none;
     padding-right: 10px;
