@@ -362,7 +362,6 @@ define(['jquery', 'jquery-ui', 'tinymce', 'tinymce_paste', 'tinymce_table', 'tin
                     }
                 },
                 selectGenerateMultiOptions: function (items) {
-                    console.log(items, "selectGenerateMultiOptions");
                     var self = this;
                     var defItem = {};
                     (self.model.toJSON().value == null || self.model.toJSON().value == "") ? defItem.selected = true : defItem.selected = false;
