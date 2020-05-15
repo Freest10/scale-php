@@ -117,7 +117,8 @@
       "name": "Name",
       "select_page": "Select page",
       "saved": "Saved",
-      "total_price": "Total price"
+      "total_price": "Total price",
+	  "search": "Search"
     },
     "main_rights": {
       "read": "Reade",
