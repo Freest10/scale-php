@@ -111,7 +111,6 @@ define(['jquery'], function($) {
 					  }
 					});
 					generalSettings.sync('update',this.collectionModel, optionsSync);
-					//console.log(this);
 				},
 				editH1: function(){
 					this.$el.find('.editH1').remove();
@@ -161,18 +160,24 @@ define(['jquery'], function($) {
 				},
 				renderRefDatasList: function(){
 					this.$el.find("#ref_table_datas").empty();
-					const resultItems = (this.collectionModel.attributes.items || []).filter(function(item) {
-						return this.query ? (item.name || '').trim().toLowerCase().indexOf(this.query) > -1 : true;
-					}.bind(this))
-					_.each(resultItems, function (item) {
+					
+					_.each(this.collectionModel.attributes.items, function (item) {
 						this.renderRefDataList(item);
 					}, this);
 				},
 				renderRefDataList: function(item){
+					const isShowItem = this.query ? (item.name || '').trim().toLowerCase().indexOf(this.query) > -1 : true;
+					
 					var referenceDataListView = new ReferenceDataListView({
 						model: item
 					});
-					this.$el.find('#ref_table_datas').append(referenceDataListView.render().el);
+					
+					var renderedElement = referenceDataListView.render().el;
+					if (!isShowItem) {
+						$(renderedElement).hide();
+					}
+					
+					this.$el.find('#ref_table_datas').append(renderedElement);
 				},
 				render: function () {
 					this.$el.find('.referenceTable').remove();
