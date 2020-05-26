@@ -10472,6 +10472,10 @@ ul.jstree-children .jstree-node:hover::before {
     margin-top: 10px;
 }
 
+.list_reference .list_elem {
+    width: auto;
+}
+
 .edit_on_hover:hover .deleteListData {
     display: block;
 }
